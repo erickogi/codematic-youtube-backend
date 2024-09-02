@@ -23,7 +23,7 @@ WORKDIR /usr/src/app
 COPY --from=BUILD_IMAGE /usr/src/app/dist ./dist
 COPY --from=BUILD_IMAGE /usr/src/app/node_modules ./node_modules
 COPY --from=BUILD_IMAGE /usr/src/app/package*.json ./
-COPY --from=BUILD_IMAGE /usr/src/app/.env ./.env
+# COPY --from=BUILD_IMAGE /usr/src/app/.env ./.env
 
 # Expose the Port
 EXPOSE 3009
