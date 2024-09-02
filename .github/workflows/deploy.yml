@@ -10,9 +10,25 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14.x'
+          node-version: '16.x'
+      - name: Debug npm and Node versions
+        run: |
+          npm --version
+          node --version
+      - name: List package.json content
+        run: cat package.json
+      - name: Check if package-lock.json exists
+        run: |
+          if [ -f package-lock.json ]; then
+            echo "package-lock.json exists"
+            cat package-lock.json
+          else
+            echo "package-lock.json does not exist"
+          fi
+      - name: Clear npm cache
+        run: npm cache clean --force
       - name: Install dependencies
-        run: npm ci
+        run: npm install -f
       - name: Run tests with coverage
         run: npm run test:cov
       - name: Upload coverage report

@@ -59,6 +59,15 @@ describe('YouTubeController', () => {
       description: 'Test Description',
       viewCount: 1000000,
       likeCount: 10000,
+      channelTitle: 'Test Channel',
+      thumbnails: {
+        default: { url: 'http://image.png', width: 120, height: 90 },
+        medium: { url: 'http://image.png', width: 320, height: 180 },
+        high: { url: 'http://image.png', width: 480, height: 360 },
+        standard: { url: 'http://image.png', width: 640, height: 480 },
+        maxres: { url: 'http://image.png', width: 1280, height: 720 },
+      },
+      publishedAt: '2024-09-02T03:02:43Z',
     };
 
     it('should return video details for a valid ID', async () => {
