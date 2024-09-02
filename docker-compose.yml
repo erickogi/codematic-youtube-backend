@@ -12,4 +12,3 @@ services:
       - .env
     network_mode: bridge
 
-# The networks section is removed as we're using the default bridge network
