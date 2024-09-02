@@ -32,7 +32,6 @@ export class YouTubeService {
                 part: 'snippet,statistics',
                 id: videoId,
             });
-
             const response = await axios.get(url);
             const video = response.data.items[0];
 
@@ -41,6 +40,9 @@ export class YouTubeService {
                 description: video.snippet.description,
                 viewCount: video.statistics.viewCount,
                 likeCount: video.statistics.likeCount,
+                channelTitle: video.snippet.channelTitle,
+                thumbnails: video.snippet.thumbnails,
+                publishedAt: video.snippet.publishedAt,
             };
 
             await this.redisService.set(

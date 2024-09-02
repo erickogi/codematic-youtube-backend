@@ -20,6 +20,6 @@ export class CommentDto {
     replyCount: number;
 
     @ApiProperty({ example: 'http://image.png', description: 'Author Image' })
-    authorProfileImageUrl: string;
+    authorProfileImageUrl?: string;
 
 }

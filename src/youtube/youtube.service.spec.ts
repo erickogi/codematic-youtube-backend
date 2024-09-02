@@ -188,6 +188,7 @@ describe('YouTubeService', () => {
                     publishedAt: '2024-09-01T12:00:00Z',
                     likeCount: 10,
                     replyCount: 2,
+                    authorProfileImageUrl: '',
                 },
             ],
             nextPageToken: 'nextPageToken',
@@ -491,6 +492,7 @@ describe('YouTubeService', () => {
                 publishedAt: '',
                 likeCount: 5,
                 replyCount: 0,
+                authorProfileImageUrl: '',
             });
         });
 
