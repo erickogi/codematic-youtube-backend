@@ -1,73 +1,126 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Codematic YouTube Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This project is a backend service for fetching and caching YouTube video details and comments. It's built with NestJS and uses Redis for caching.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## API Documentation
 
-## Description
+The Swagger documentation for this API is available at:
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+URL: http://164.90.185.174:3009/codematic/documentation#/
 
-## Installation
+To access the documentation, use the following credentials:
+- Username: codematic
+- Password: codematic123!
 
-```bash
-$ npm install
+## Frontend Client
+
+The frontend client that uses this service can be accessed at:
+
+URL: http://164.90.185.174:3010/
+
+## Server Setup and Deployment
+
+### Environment Setup
+
+1. Create a `.env` file in the root directory of the project with the following structure:
+
+```
+NODE_ENV=testing
+PORT=3009
+YOUTUBE_API_KEY=your_youtube_api_key
+YOUTUBE_VIDEO_DETAILS_URL=/videos?part=snippet,statistics&id=VIDEO_ID&key=API_KEY
+YOUTUBE_VIDEO_COMMENTS_URL=/commentThreads?part=snippet&videoId=VIDEO_ID&key=API_KEY
+YOUTUBE_BASE_URL=https://www.googleapis.com/youtube/v3
+REDIS_HOST=your_redis_host
+REDIS_PORT=6379
+REDIS_PASSWORD=your_redis_password
+SWAGGER_USER=your_swagger_username
+SWAGGER_PASSWORD=your_swagger_password
+VIDEO_DETAILS_CACHE_EXPIRY_TIME=600
+VIDEO_COMMENTS_CACHE_EXPIRY_TIME=3600
+RATE_LIMIT_WINDOW_SEC=3600
+RATE_LIMIT_MAX=100
 ```
 
-## Running the app
+Replace the placeholder values with your actual configuration.
+
+### GitHub Workflow
+
+The project uses GitHub Actions for CI/CD. The workflow is defined in `.github/workflows/main.yml`. It includes steps for testing and deploying the application.
+
+To set up the workflow:
+
+1. Go to your GitHub repository settings.
+2. Navigate to "Secrets and variables" > "Actions".
+3. Add the following secrets:
+   - `SERVER_IP`: Your server's IP address
+   - `SERVER_USERNAME`: SSH username for your server
+   - `SERVER_PASSWORD`: SSH password for your server
+   - All the environment variables from your `.env` file (e.g., `NODE_ENV`, `PORT`, `YOUTUBE_API_KEY`, etc.)
+
+### Docker and Docker Compose
+
+The project includes a `Dockerfile` and a `docker-compose.yml` file for containerization.
+
+To build and run the Docker container:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+docker build -t codematic-youtube-backend .
+docker run -p 3009:3009 --env-file .env codematic-youtube-backend
 ```
 
-## Test
+To run with Docker Compose:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+docker-compose up -d
 ```
 
-## Support
+## Local Development
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+To run the project locally without Docker:
 
-## Stay in touch
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+2. Start the development server:
+   ```bash
+   npm run start:dev
+   ```
 
-## License
+The application will be available at `http://localhost:3009`.
 
-Nest is [MIT licensed](LICENSE).
+## Testing
+
+The project includes a test suite. To run the tests:
+
+```bash
+npm run test
+```
+
+To run tests with coverage:
+
+```bash
+npm run test:cov
+```
+
+The test coverage results will be available in the `coverage` directory after running `npm run test:cov`.
+
+## Rate Limiting
+
+The application implements rate limiting to prevent abuse. The rate limit is configured in the `.env` file:
+
+- `RATE_LIMIT_WINDOW_SEC`: The time window in seconds
+- `RATE_LIMIT_MAX`: The maximum number of requests allowed within the time window
+
+The rate limiting is implemented using a guard (`RateLimitGuard`) that checks the request rate for each IP address.
+
+## Additional Information
+
+- The project uses NestJS as its framework.
+- Redis is used for caching to improve performance and reduce load on the YouTube API.
+- The application is configured to run on port 3009 by default, but this can be changed in the `.env` file.
+- Make sure to keep your YouTube API key and other sensitive information secure and never commit them to version control.
+
+For any additional help or information, please refer to the official [NestJS documentation](https://docs.nestjs.com/).
