@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  tugende-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: codematic-youtube-backend-image
+    container_name: codematic-youtube-backend-container
+    ports:
+      - "3009:3009"
+    env_file:
+      - .env
+    network_mode: bridge
+
+# The networks section is removed as we're using the default bridge network
