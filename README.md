@@ -1,4 +1,4 @@
-# Codematic YouTube Backend
+# Backend
 
 This project is a backend service for fetching and caching YouTube video details and comments. It's built with NestJS and uses Redis for caching.
 
