@@ -75,7 +75,8 @@ jobs:
               sudo chmod +x /usr/local/bin/docker-compose
             fi
             cd /home/projects/codematics/codematic-youtube-backend
-            git pull
+            git stash
+            git pull origin master
             # Create .env file on the server
             cat << EOF > .env
             NODE_ENV=${{ secrets.NODE_ENV }}
