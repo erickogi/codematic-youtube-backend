@@ -18,4 +18,7 @@ module.exports = {
       '^src/(.*)$': '<rootDir>/src/$1',
     },
     coverageReporters: ['text', 'lcov', 'json', 'html'],
+    transformIgnorePatterns: [
+        'node_modules/(?!@nestjs/)',
+    ],
   };
