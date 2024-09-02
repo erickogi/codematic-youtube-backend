@@ -114,6 +114,7 @@ export class YouTubeService {
             publishedAt: item.snippet?.topLevelComment?.snippet?.publishedAt || '',
             likeCount: item.snippet?.topLevelComment?.snippet?.likeCount || 0,
             replyCount: item.snippet?.totalReplyCount || 0,
+            authorProfileImageUrl: item.snippet?.topLevelComment?.snippet?.authorProfileImageUrl || '',
         }));
 
         return {
