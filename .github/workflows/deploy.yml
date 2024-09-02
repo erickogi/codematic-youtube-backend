@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Deploy Tugende API
+      - name: Deploy codematic-youtube-backend API
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_IP }}
