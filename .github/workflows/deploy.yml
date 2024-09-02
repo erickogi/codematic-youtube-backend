@@ -36,12 +36,30 @@ jobs:
         with:
           name: coverage-report
           path: coverage
+
   deploy:
     needs: test
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Create .env file
+        run: |
+          echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> .env
+          echo "PORT=${{ secrets.PORT }}" >> .env
+          echo "YOUTUBE_API_KEY=${{ secrets.YOUTUBE_API_KEY }}" >> .env
+          echo "YOUTUBE_VIDEO_DETAILS_URL=${{ secrets.YOUTUBE_VIDEO_DETAILS_URL }}" >> .env
+          echo "YOUTUBE_VIDEO_COMMENTS_URL=${{ secrets.YOUTUBE_VIDEO_COMMENTS_URL }}" >> .env
+          echo "YOUTUBE_BASE_URL=${{ secrets.YOUTUBE_BASE_URL }}" >> .env
+          echo "REDIS_HOST=${{ secrets.REDIS_HOST }}" >> .env
+          echo "REDIS_PORT=${{ secrets.REDIS_PORT }}" >> .env
+          echo "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" >> .env
+          echo "SWAGGER_USER=${{ secrets.SWAGGER_USER }}" >> .env
+          echo "SWAGGER_PASSWORD=${{ secrets.SWAGGER_PASSWORD }}" >> .env
+          echo "VIDEO_DETAILS_CACHE_EXPIRY_TIME=${{ secrets.VIDEO_DETAILS_CACHE_EXPIRY_TIME }}" >> .env
+          echo "VIDEO_COMMENTS_CACHE_EXPIRY_TIME=${{ secrets.VIDEO_COMMENTS_CACHE_EXPIRY_TIME }}" >> .env
+          echo "RATE_LIMIT_WINDOW_SEC=${{ secrets.RATE_LIMIT_WINDOW_SEC }}" >> .env
+          echo "RATE_LIMIT_MAX=${{ secrets.RATE_LIMIT_MAX }}" >> .env
       - name: Deploy codematic-youtube-backend API
         uses: appleboy/ssh-action@master
         with:
@@ -58,6 +76,24 @@ jobs:
             fi
             cd /home/projects/codematics/codematic-youtube-backend
             git pull
+            # Create .env file on the server
+            cat << EOF > .env
+            NODE_ENV=${{ secrets.NODE_ENV }}
+            PORT=${{ secrets.PORT }}
+            YOUTUBE_API_KEY=${{ secrets.YOUTUBE_API_KEY }}
+            YOUTUBE_VIDEO_DETAILS_URL=${{ secrets.YOUTUBE_VIDEO_DETAILS_URL }}
+            YOUTUBE_VIDEO_COMMENTS_URL=${{ secrets.YOUTUBE_VIDEO_COMMENTS_URL }}
+            YOUTUBE_BASE_URL=${{ secrets.YOUTUBE_BASE_URL }}
+            REDIS_HOST=${{ secrets.REDIS_HOST }}
+            REDIS_PORT=${{ secrets.REDIS_PORT }}
+            REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
+            SWAGGER_USER=${{ secrets.SWAGGER_USER }}
+            SWAGGER_PASSWORD=${{ secrets.SWAGGER_PASSWORD }}
+            VIDEO_DETAILS_CACHE_EXPIRY_TIME=${{ secrets.VIDEO_DETAILS_CACHE_EXPIRY_TIME }}
+            VIDEO_COMMENTS_CACHE_EXPIRY_TIME=${{ secrets.VIDEO_COMMENTS_CACHE_EXPIRY_TIME }}
+            RATE_LIMIT_WINDOW_SEC=${{ secrets.RATE_LIMIT_WINDOW_SEC }}
+            RATE_LIMIT_MAX=${{ secrets.RATE_LIMIT_MAX }}
+            EOF
             docker-compose down
             docker system prune -af
             docker-compose build --force-rm --no-cache --compress
