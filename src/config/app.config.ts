@@ -4,8 +4,8 @@ dotenv.config();
 export const appConfig = () => ({
   environment: process.env.NODE_ENV || 'development',
   port: process.env.PORT || 3009,
-  swagger_user: process.env.SWAGGER_USER,
-  swagger_password: process.env.SWAGGER_PASSWORD,
+  swagger_user: process.env.SWAGGER_USER || 'admin',
+  swagger_password: process.env.SWAGGER_PASSWORD || 'test',
   redisHost: process.env.REDIS_HOST,
   redisPort: parseInt(process.env.REDIS_PORT),
   youtubeApiKey: process.env.YOUTUBE_API_KEY,
