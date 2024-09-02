@@ -28,7 +28,7 @@ jobs:
       - name: Clear npm cache
         run: npm cache clean --force
       - name: Install dependencies
-        run: npm install
+        run: npm install -f
       - name: Run tests with coverage
         run: npm run test:cov
       - name: Upload coverage report
